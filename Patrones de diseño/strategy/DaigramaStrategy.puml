@@ -1,0 +1,40 @@
+@startuml "Strategy "
+interface PaymentStrategy {
+    +pay(amount: double)
+}
+
+class CreditCardPayment implements PaymentStrategy {
+    -cardNumber: String
+    -cardHolderName: String
+    +pay(amount: double)
+}
+
+class PayPalPayment implements PaymentStrategy {
+    -email: String
+    +pay(amount: double)
+}
+
+class CryptoPayment implements PaymentStrategy {
+    -walletAddress: String
+    +pay(amount: double)
+}
+
+class PaymentService {
+    -paymentStrategy: PaymentStrategy
+    +setPaymentStrategy(paymentStrategy: PaymentStrategy)
+    +processPayment(amount: double)
+}
+
+class PaymentController {
+    -paymentService: PaymentService
+    +payWithCreditCard(amount: double, cardNumber: String, cardHolderName: String)
+    +payWithPayPal(amount: double, email: String)
+    +payWithCrypto(amount: double, walletAddress: String)
+}
+
+PaymentService --> PaymentStrategy
+PaymentController --> PaymentService
+PaymentStrategy <|-- CreditCardPayment
+PaymentStrategy <|-- PayPalPayment
+PaymentStrategy <|-- CryptoPayment
+@enduml
