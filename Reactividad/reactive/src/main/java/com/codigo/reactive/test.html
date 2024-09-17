@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Usuarios Cambios</title>
+</head>
+<body>
+<h1>Usuarios Cambios</h1>
+<ul id="usuarios-list"></ul>
+
+<script>
+    const eventSource = new EventSource('http://localhost:8080/reactive/usuarios/v1/changes');
+    eventSource.onmessage = function(event) {
+        const usuario = JSON.parse(event.data);
+        const item = document.createElement('li');
+        item.textContent = `ID: ${usuario.id}, Name: ${usuario.name}, Email: ${usuario.email}, State: ${usuario.state}`;
+        document.getElementById('usuarios-list').appendChild(item);
+    };
+</script>
+</body>
+</html>
