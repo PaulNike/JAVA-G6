@@ -25,11 +25,11 @@ public class ExcelProcessorImpl implements ExcelProcessor {
                             Files.newInputStream(Paths.get("temp.xlsx")))){
                         Sheet sheet = workbook.getSheetAt(0);
                         for (Row row : sheet){
-                            obj.next(UsuariosDTO.builder()
-                                            .name(row.getCell(0).getStringCellValue())
-                                            .email(row.getCell(1).getStringCellValue())
-                                            .state(row.getCell(2).getStringCellValue())
-                                            .build());
+                            UsuariosDTO personDTO = new UsuariosDTO();
+                            personDTO.setName(row.getCell(0).getStringCellValue());
+                            personDTO.setEmail(row.getCell(1).getStringCellValue());
+                            personDTO.setState(row.getCell(2).getStringCellValue());
+                            obj.next(personDTO);
                         }
                         obj.complete();
                     }catch (IOException e){
